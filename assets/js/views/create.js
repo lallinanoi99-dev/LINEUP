@@ -58,7 +58,7 @@ export function view() {
         </details>
 
         <p class="form__err" data-err role="alert"></p>
-        <button class="btn btn--lime btn--lg btn--block" type="submit" data-submit>Create waitlist</button>
+        <button class="btn btn--primary btn--lg btn--block" type="submit" data-submit>Create waitlist</button>
         <p class="muted small">One transaction on ${esc(NET.chainName)}. Text can't be edited later. By creating, you agree to keep it friendly.</p>
         </div>
         ${panelFoot("LINEUP", `${esc(NET.chainName).toUpperCase()} · ${NET.chainId}`)}
@@ -160,13 +160,13 @@ function shareKit(root, id, d, hash) {
     <div class="kit__grid">
       <div>
         <div class="field"><span>Link</span>
-          <div class="invite"><input class="invite__input mono" readonly value="${esc(link)}"><button class="btn btn--lime btn--sm" data-cp-link>Copy</button></div></div>
+          <div class="invite"><input class="invite__input mono" readonly value="${esc(link)}"><button class="btn btn--primary btn--sm" data-cp-link>Copy</button></div></div>
         <div class="field"><span>Ready-made X post</span>
           <textarea class="input mono kit__post" rows="5" readonly>${esc(post)}</textarea>
           <div class="row gap-sm"><button class="btn btn--ghost btn--sm" data-cp-post>Copy text</button>
           <a class="btn btn--lilac btn--sm" target="_blank" rel="noopener" href="https://x.com/intent/post?text=${encodeURIComponent(post)}">Post on X ↗</a></div></div>
         <div class="row gap">
-          <a class="btn btn--lime" href="${url(`/w/${id}`)}" data-link>Open waitlist page</a>
+          <a class="btn btn--primary" href="${url(`/w/${id}`)}" data-link>Open waitlist page</a>
           <a class="btn btn--ghost" href="${url(`/app/w/${id}`)}" data-link>Dashboard</a>
         </div>
         <p class="muted small mono">tx <a href="${NET.scan}/tx/${hash}" target="_blank" rel="noopener">${hash.slice(0, 10)}…</a> · join yourself first so friends can use your link</p>
@@ -177,7 +177,7 @@ function shareKit(root, id, d, hash) {
     ${panelFoot("SHARE KIT", "LIVE")}
   </div>`;
   const qrEl = $("[data-qr]", box);
-  if (window.QRCode) new QRCode(qrEl, { text: link, width: 200, height: 200, colorDark: "#0C0B10", colorLight: "#F4F2F8", correctLevel: QRCode.CorrectLevel.M });
+  if (window.QRCode) new QRCode(qrEl, { text: link, width: 200, height: 200, colorDark: "#1c1c1b", colorLight: "#f2f0eb", correctLevel: QRCode.CorrectLevel.M });
   $("[data-cp-link]", box).onclick = () => copy(link, "Link copied");
   $("[data-cp-post]", box).onclick = () => copy(post, "Post copied");
   $("[data-dl-qr]", box).onclick = () => {

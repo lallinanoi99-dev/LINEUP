@@ -17,4 +17,4 @@ export const terms = () => page("Terms", `
 
 export const notFound = () => page("Not found", `
   <div class="empty panel"><span class="big-emoji">🎟️</span><h1 class="h2 px">This page isn't in line</h1>
-  <p class="muted">We couldn't find that page.</p><a class="btn btn--lime" href="${url("/")}" data-link>Back home</a></div>`);
+  <p class="muted">We couldn't find that page.</p><a class="btn btn--primary" href="${url("/")}" data-link>Back home</a></div>`);
