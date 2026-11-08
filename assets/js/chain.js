@@ -67,8 +67,26 @@ export async function ensureChain() {
   emit();
 }
 
+// Checks that the configured address really is a Lineup deployment (has its functions
+// in the bytecode). A wrong address makes every call revert with no data.
+let _codeCheck;
+export function contractOk() {
+  if (!IS_DEPLOYED) return Promise.resolve(false);
+  if (!_codeCheck) {
+    _codeCheck = reader().runner.getCode(NET.contract)
+      .then((code) => ["createList", "join", "getList"].every((n) => code.includes(iface.getFunction(n).selector.slice(2))))
+      .catch(() => { _codeCheck = null; return true; }); // RPC hiccup: don't block, retry next time
+  }
+  return _codeCheck;
+}
+const WRONG_CONTRACT = "The Lineup contract isn't at the address this site uses, so nothing can be created or joined yet. Nothing was sent and no gas was spent.";
+
 async function writer() {
   if (!IS_DEPLOYED) throw new Error("Contract address not set yet (see assets/js/config.js)");
+  if (!(await contractOk())) {
+    console.error(`Lineup: ${NET.contract} on chain ${NET.chainId} is not a deployment of contracts/Lineup.sol. Deploy it and update assets/js/config.js.`);
+    throw Object.assign(new Error(WRONG_CONTRACT), { code: "WRONG_CONTRACT" });
+  }
   if (!wallet.account) await connect();
   await ensureChain();
   const signer = await new ethers.BrowserProvider(window.ethereum).getSigner();
@@ -77,7 +95,7 @@ async function writer() {
 
 export function friendlyError(e) {
   if (!e) return "Something went wrong";
-  if (e.code === "NO_WALLET") return e.message;
+  if (e.code === "NO_WALLET" || e.code === "WRONG_CONTRACT") return e.message;
   if (e.code === "ACTION_REJECTED" || e.code === 4001 || e?.info?.error?.code === 4001) return "Transaction rejected in wallet";
   let name = e.revert?.name;
   if (!name && e.data) { try { name = iface.parseError(e.data)?.name; } catch {} }
@@ -90,7 +108,9 @@ export function friendlyError(e) {
   if (/insufficient funds/i.test(e.message || "")) return "Not enough BOT for gas";
   // A revert with no data never comes from Lineup's own checks (those are named errors).
   // It usually means the address in config.js is not a Lineup contract (unknown function).
-  if (e.code === "CALL_EXCEPTION" && !name && (!e.data || e.data === "0x")) {
+  const noData = (e.code === "CALL_EXCEPTION" && (!e.data || e.data === "0x"))
+    || /no data present|require\(false\)/i.test(`${e.shortMessage || ""} ${e.message || ""}`);
+  if (!name && noData) {
     console.error("Lineup: contract reverted without a reason. Is the address in config.js a deployment of contracts/Lineup.sol?", e);
     return "BOT Chain couldn't run this transaction (the contract gave no reason). Nothing was sent and no gas was spent. Please try again later.";
   }
