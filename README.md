@@ -2,8 +2,8 @@
 
 Make a launch waitlist in a minute. People join with their wallet, invite friends to move up, and every spot is recorded on **BOT Chain** so nobody can cut the line.
 
-- **Contract (BOT Chain mainnet, chain ID 677):** `0x9Da8F988625e8785c56737A6EEF5E6b5bF6f23a3`
-- **Explorer:** https://scan.botchain.ai/address/0x9Da8F988625e8785c56737A6EEF5E6b5bF6f23a3
+- **Contract (BOT Chain mainnet, chain ID 677):** `0x62Dd6cC16Bd1851b5644AAa62BB4E55a0e7d55Be`
+- **Explorer:** https://scan.botchain.ai/address/0x62Dd6cC16Bd1851b5644AAa62BB4E55a0e7d55Be
 - **Live site:** _GitHub Pages URL / custom domain_
 
 > Spots are wallet-based. Lineup is for fun and early access, not money.

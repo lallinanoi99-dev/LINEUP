@@ -4,7 +4,7 @@
 // ─────────────────────────────────────────────────────────────
 
 /** Mainnet contract (BOT Chain, chain ID 677). */
-export const MAINNET_CONTRACT_ADDRESS = "0x9Da8F988625e8785c56737A6EEF5E6b5bF6f23a3";
+export const MAINNET_CONTRACT_ADDRESS = "0x62Dd6cC16Bd1851b5644AAa62BB4E55a0e7d55Be";
 /** Testnet contract (BOT Chain testnet, chain ID 968). Use with ?net=testnet. */
 export const TESTNET_CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000";
 
