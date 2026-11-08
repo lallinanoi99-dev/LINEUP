@@ -25,7 +25,7 @@ There's no backend and no build step. The site reads the chain directly.
 
 ## Routes
 
-- `/` is the website: announcement bar, mega-menu nav, and 7 sections (hero with the Join · Invite · Climb demo, "See your launch page" preview, How it works, launch story, big stat, Built fair + ranking + FAQ, closing CTA). It ends with the "Admit one" ticket footer.
+- `/` is the website: a wordmark and frosted pill nav over grain-textured tone sections split by thin column rules. Sections: hero with a scroll-lit headline and a live spots counter; a pinned "rule is clear" explainer (Join order · Invites · Boost · Your spot) with contour lines and a white card; How it works, where a ticket rides an S-curve through four steps; a live launch-page preview; Built fair + ranking + FAQ; closing CTA. It ends with the "Admit one" ticket footer.
 - `/app/new` creates a waitlist with a live preview. After the transaction it shows the share kit: link, QR code (downloadable) and a ready-made X post.
 - `/w/:id` is the public page. It has a countdown, live counter, reward, join button, `?ref=` invite banner, a perforated ticket that flips to your invite link, the top-10 inviters, recent joins and a ticker. On mobile the join button sticks to the bottom of the screen.
 - `/app/w/:id` is the creator dashboard. It shows stats, signups per day, the top 20 inviters, latest joins, CSV export (position, wallet, joined at, referrals) and Close waitlist.

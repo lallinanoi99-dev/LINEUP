@@ -17,7 +17,7 @@ async function mount(root, id) {
   if (!IS_DEPLOYED) { box.innerHTML = `<div class="empty panel"><h1 class="h2 px">Waitlist not found</h1><p class="muted">The contract isn't deployed on this network yet.</p></div>`; return; }
   let list;
   try { list = await getList(id); }
-  catch (e) { box.innerHTML = `<div class="empty panel"><span class="big-emoji">🎟️</span><h1 class="h2 px">Waitlist not found</h1><p class="muted">${e.code === "NOT_FOUND" ? "No waitlist with this number." : "Couldn't reach BOT Chain."}</p><a class="btn btn--lime" href="${url("/app/new")}" data-link>Create one</a></div>`; return; }
+  catch (e) { box.innerHTML = `<div class="empty panel"><span class="big-emoji">🎟️</span><h1 class="h2 px">Waitlist not found</h1><p class="muted">${e.code === "NOT_FOUND" ? "No waitlist with this number." : "Couldn't reach BOT Chain."}</p><a class="btn btn--primary" href="${url("/app/new")}" data-link>Create one</a></div>`; return; }
 
   const accent = COLORS[list.color]?.hex || "#C6FF3D";
   box.innerHTML = `
@@ -88,7 +88,7 @@ async function mount(root, id) {
 
     $("[data-inviters]", box).innerHTML = r.inviters.slice(0, 20).map((x, i) => `<tr>
       <td data-label="#" class="mono">${i + 1}</td><td data-label="Wallet"><a class="mono addr" href="${url(`/w/${id}`)}" data-link>${avatar(x.addr)}${shorter(x.addr)}</a></td>
-      <td data-label="Friends" class="mono">${x.refs}${x.refs > l.cap ? ` <i class="muted">(${l.cap} counted)</i>` : ""}</td><td data-label="Spot" class="mono lime">#${fmt(x.rank)}</td></tr>`).join("")
+      <td data-label="Friends" class="mono">${x.refs}${x.refs > l.cap ? ` <i class="muted">(${l.cap} counted)</i>` : ""}</td><td data-label="Spot" class="mono accent">#${fmt(x.rank)}</td></tr>`).join("")
       || `<tr><td colspan="4" class="muted small">No referrals yet.</td></tr>`;
     $("[data-latest]", box).innerHTML = [...r.rows].reverse().slice(0, 20).map((x) => `<tr>
       <td data-label="Join" class="mono">#${fmt(x.joinNo)}</td><td data-label="Wallet" class="mono">${avatar(x.addr)}${shorter(x.addr)}</td>
@@ -111,10 +111,10 @@ async function mount(root, id) {
       data: { labels, datasets: [{ label: "Signups", data, backgroundColor: accent, borderRadius: 6, maxBarThickness: 36 }] },
       options: {
         responsive: true, maintainAspectRatio: false, animation: reduced() ? false : { duration: 700 },
-        plugins: { legend: { display: false }, tooltip: { backgroundColor: "#15131C", borderColor: "#2A2733", borderWidth: 1, titleColor: "#F4F2F8", bodyColor: "#F4F2F8", displayColors: false } },
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: "#262624", borderColor: "#3a3935", borderWidth: 1, titleColor: "#f2f0eb", bodyColor: "#f2f0eb", displayColors: false } },
         scales: {
           x: { grid: { display: false }, ticks: { color: "#9892A6", maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
-          y: { beginAtZero: true, grid: { color: "#2A2733" }, border: { display: false }, ticks: { color: "#9892A6", precision: 0 } },
+          y: { beginAtZero: true, grid: { color: "#3a3935" }, border: { display: false }, ticks: { color: "#9892A6", precision: 0 } },
         },
       },
     });

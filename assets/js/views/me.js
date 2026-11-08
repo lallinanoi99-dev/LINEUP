@@ -27,7 +27,7 @@ async function mount(root) {
   const render = async () => {
     const my = ++seq;
     if (!wallet.account) {
-      box.innerHTML = `<div class="empty panel"><span class="big-emoji">🎟️</span><h1 class="h2 px">My lines</h1><p class="muted">Connect your wallet to see the waitlists you created and the lines you're in.</p><button class="btn btn--lime" data-conn>Connect wallet</button></div>`;
+      box.innerHTML = `<div class="empty panel"><span class="big-emoji">🎟️</span><h1 class="h2 px">My lines</h1><p class="muted">Connect your wallet to see the waitlists you created and the lines you're in.</p><button class="btn btn--primary" data-conn>Connect wallet</button></div>`;
       $("[data-conn]", box).onclick = async () => { try { await connect(); } catch (e) { e.code === "NO_WALLET" ? showInstall() : null; } };
       return;
     }
@@ -45,7 +45,7 @@ async function mount(root) {
       }));
       if (my !== seq) return;
       box.innerHTML = `
-        <div class="row between"><h1 class="h2 px">My lines</h1><a class="btn btn--lime btn--sm" href="${url("/app/new")}" data-link>＋ New waitlist</a></div>
+        <div class="row between"><h1 class="h2 px">My lines</h1><a class="btn btn--primary btn--sm" href="${url("/app/new")}" data-link>＋ New waitlist</a></div>
         <span class="eyebrow">Created by you</span>
         <div class="linegrid">${created.slice().reverse().map((i) => card(lists.get(i), `<span class="linecard__go">Dashboard →</span>`, `/app/w/${i}`)).join("") || `<p class="muted">Nothing yet. <a href="${url("/app/new")}" data-link>Create your first waitlist →</a></p>`}</div>
         <span class="eyebrow">Lines you're in</span>

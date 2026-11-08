@@ -1,7 +1,7 @@
 // Tiny router for the single-page site.
 import { BASE, EMBED, $, startCountdowns, reduced } from "./util.js";
 import { initWallet } from "./chain.js";
-import { siteNav, appNav, footer, bindWalletButtons, bindFooter } from "./ui.js";
+import { siteNav, footer, bindWalletButtons, bindFooter } from "./ui.js";
 import * as home from "./views/home.js";
 import * as create from "./views/create.js";
 import * as waitlist from "./views/waitlist.js";
@@ -48,7 +48,8 @@ async function render() {
   const v = view(match ? match.slice(1) : []);
   document.title = v.title ? `${v.title} · Lineup` : "Lineup — Get in line.";
   document.body.dataset.kind = kind;
-  app.innerHTML = `${kind === "site" ? siteNav() : appNav()}<main id="main" tabindex="-1"><div class="grid-lines" aria-hidden="true"></div>${v.html}</main>${footer()}`;
+  document.body.toggleAttribute("data-home", view === home.view);
+  app.innerHTML = `${siteNav()}<main id="main" tabindex="-1">${v.html}</main>${footer()}`;
 
   cleanup.push(bindWalletButtons(app));
   bindFooter(app);
@@ -98,17 +99,12 @@ document.addEventListener("click", (e) => {
 addEventListener("popstate", render);
 
 function bindNav() {
-  const mega = $(".mega");
-  if (mega) {
-    const btn = $(".mega__btn", mega);
-    const set = (o) => { mega.classList.toggle("is-open", o); btn.setAttribute("aria-expanded", String(o)); };
-    mega.addEventListener("mouseenter", () => set(true));
-    mega.addEventListener("mouseleave", () => set(false));
-    btn.addEventListener("click", () => set(!mega.classList.contains("is-open")));
-    mega.addEventListener("focusout", (e) => { if (!mega.contains(e.relatedTarget)) set(false); });
-  }
   const burger = $("[data-burger]"), menu = $("[data-mobile-menu]");
-  burger?.addEventListener("click", () => menu.toggleAttribute("hidden"));
+  burger?.addEventListener("click", () => {
+    const open = menu.hasAttribute("hidden");
+    menu.toggleAttribute("hidden", !open);
+    burger.setAttribute("aria-expanded", String(open));
+  });
   const nav = $("[data-nav]");
   const onScroll = () => nav?.classList.toggle("is-scrolled", scrollY > 8);
   addEventListener("scroll", onScroll, { passive: true });

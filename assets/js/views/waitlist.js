@@ -13,7 +13,7 @@ export function view([idStr]) {
 }
 
 function notFound(root, extra = "") {
-  $("[data-wlpage]", root).innerHTML = `<div class="empty panel"><span class="big-emoji">🎟️</span><h1 class="h2 px">Waitlist not found</h1><p class="muted">${extra || "This line doesn't exist (yet). Check the link, or make your own."}</p><a class="btn btn--lime" href="${url("/app/new")}" data-link>Create a waitlist</a></div>`;
+  $("[data-wlpage]", root).innerHTML = `<div class="empty panel"><span class="big-emoji">🎟️</span><h1 class="h2 px">Waitlist not found</h1><p class="muted">${extra || "This line doesn't exist (yet). Check the link, or make your own."}</p><a class="btn btn--primary" href="${url("/app/new")}" data-link>Create a waitlist</a></div>`;
 }
 
 async function mount(root, id) {
@@ -82,15 +82,15 @@ async function mount(root, id) {
         + (state.refNote ? `<p class="note">${state.refNote}</p>` : "")
         + `<p class="muted small center">Join #${fmt(m.joinNo)} · ${m.counted} friend${m.counted === 1 ? "" : "s"} counted${l.closed ? " · final" : ""}</p>`;
       bindTicket(action);
-      if (!l.closed) sticky.innerHTML = `<button class="btn btn--lime btn--block" data-sticky-copy>Copy invite link</button>`;
+      if (!l.closed) sticky.innerHTML = `<button class="btn btn--primary btn--block" data-sticky-copy>Copy invite link</button>`;
       $("[data-sticky-copy]", sticky)?.addEventListener("click", () => copy(inviteUrl(), "Invite link copied"));
       return;
     }
     if (l.closed) { action.innerHTML = `<div class="state">This line is closed — positions are final.</div>`; return; }
     if (l.maxSpots && l.count >= l.maxSpots) { action.innerHTML = `<div class="state">This line is full</div>`; return; }
     const label = !window.ethereum ? "Join the line" : !wallet.account ? "Join the line" : !onRightChain() ? "Switch to BOT Chain" : "Join the line";
-    action.innerHTML = `<button class="btn btn--lime btn--lg btn--block" data-join>${label}</button><p class="form__err" data-join-err role="alert"></p>`;
-    sticky.innerHTML = `<button class="btn btn--lime btn--block" data-join>${label}</button>`;
+    action.innerHTML = `<button class="btn btn--primary btn--lg btn--block" data-join>${label}</button><p class="form__err" data-join-err role="alert"></p>`;
+    sticky.innerHTML = `<button class="btn btn--primary btn--block" data-join>${label}</button>`;
     $$("[data-join]", page).forEach((b) => b.addEventListener("click", join));
   }
 

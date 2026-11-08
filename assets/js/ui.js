@@ -3,75 +3,33 @@ import { NET, NETWORKS, MAINNET_CONTRACT_ADDRESS, CONTRACT_EXPLORER_URL, LINKS, 
 import { esc, short, fmt, barcodeSVG, $, $$, copy, toast, url, clean, countdownHTML } from "./util.js";
 import { wallet, connect, ensureChain, onWallet, onRightChain, friendlyError, getStats } from "./chain.js";
 
-export const LOGO = `<svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
-  <path d="M5 8a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v4a4 4 0 0 0 0 8v4a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-4a4 4 0 0 0 0-8z" fill="#C6FF3D"/>
-  <path d="M16 21.5V11m0 0-4.2 4.2M16 11l4.2 4.2" stroke="#0C0B10" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-</svg>`;
-export const logo = (href = "/") => `<a class="logo" href="${url(href)}" data-link aria-label="Lineup home">${LOGO}<span>Lineup</span></a>`;
-
-export function announce() {
-  return `<a class="announce" href="${url("/#fair")}" data-link><span class="announce__tag">New</span> Referral boosts you can tune <span aria-hidden="true">→</span></a>`;
-}
+export const logo = (href = "/") => `<a class="logo" href="${url(href)}" data-link aria-label="Lineup home">lineup</a>`;
 
 export function walletBtn(cls = "btn btn--ghost btn--sm") {
   return `<button class="${cls}" data-wallet-btn type="button">Connect wallet</button>`;
 }
 
+/** One nav for every page: wordmark left, frosted pill right. */
 export function siteNav() {
-  return `${announce()}
-  <header class="nav" data-nav>
-    <div class="nav__in">
-      ${logo("/")}
+  const links = [["/#how", "How it works"], ["/#rules", "Ranking"], ["/#faq", "FAQ"], ["/app/me", "My lines"]];
+  return `<header class="nav" data-nav>
+    ${logo("/")}
+    <div class="nav__pill">
       <nav class="nav__links" aria-label="Main">
-        <div class="mega">
-          <button class="nav__link mega__btn" type="button" aria-expanded="false">Product <span class="chev" aria-hidden="true"></span></button>
-          <div class="mega__panel" role="menu">
-            <a class="mega__item" href="${url("/app/new")}" data-link role="menuitem"><span class="mega__ic mega__ic--lime">＋</span><span><b>Create a waitlist</b><i>One transaction, live in a minute</i></span></a>
-            <a class="mega__item" href="${url("/app/me")}" data-link role="menuitem"><span class="mega__ic mega__ic--lilac">☰</span><span><b>My lines</b><i>Lists you made and lines you're in</i></span></a>
-            <a class="mega__item" href="${url("/#how")}" data-link role="menuitem"><span class="mega__ic mega__ic--sky">↗</span><span><b>How it works</b><i>Create · Share · Climb</i></span></a>
-            <a class="mega__item" href="${url("/#fair")}" data-link role="menuitem"><span class="mega__ic mega__ic--coral">✓</span><span><b>Built fair</b><i>Ranking rules, on-chain</i></span></a>
-            <div class="mega__aside">
-              <span class="eyebrow">On BOT Chain</span>
-              <p>Every spot is a transaction on chain ID ${NETWORKS.mainnet.chainId}. Nobody can cut the line — not even the creator.</p>
-            </div>
-          </div>
-        </div>
-        <a class="nav__link" href="${url("/#preview")}" data-link>Examples</a>
-        <a class="nav__link" href="${url("/#faq")}" data-link>FAQ</a>
+        ${links.map(([h, t]) => `<a class="nav__link" href="${url(h)}" data-link>${t}</a>`).join("")}
       </nav>
-      <div class="nav__cta">
-        ${walletBtn("nav__wallet")}
-        <a class="btn btn--lime btn--sm" href="${url("/app/new")}" data-link>Create a waitlist</a>
-        <button class="nav__burger" type="button" aria-label="Menu" data-burger><span></span><span></span></button>
-      </div>
+      ${NET.key === "testnet" ? `<span class="pill pill--warn nav__net">Testnet</span>` : ""}
+      ${walletBtn("nav__wallet")}
+      <a class="nav__cta" href="${url("/app/new")}" data-link>Create a waitlist</a>
+      <button class="nav__burger" type="button" aria-label="Menu" aria-expanded="false" data-burger><span></span><span></span></button>
     </div>
     <div class="nav__mobile" data-mobile-menu hidden>
       <a href="${url("/app/new")}" data-link>Create a waitlist</a>
-      <a href="${url("/app/me")}" data-link>My lines</a>
-      <a href="${url("/#how")}" data-link>How it works</a>
-      <a href="${url("/#preview")}" data-link>Examples</a>
-      <a href="${url("/#faq")}" data-link>FAQ</a>
+      ${links.map(([h, t]) => `<a href="${url(h)}" data-link>${t}</a>`).join("")}
     </div>
   </header>`;
 }
-
-export function appNav() {
-  return `<header class="nav nav--app" data-nav>
-    <div class="nav__in">
-      ${logo("/")}
-      <nav class="nav__links" aria-label="App">
-        <a class="nav__link" href="${url("/app/me")}" data-link>My lines</a>
-        <a class="nav__link" href="${url("/#how")}" data-link>How it works</a>
-        <a class="nav__link" href="${url("/#faq")}" data-link>FAQ</a>
-      </nav>
-      <div class="nav__cta">
-        ${NET.key === "testnet" ? `<span class="pill pill--warn">Testnet</span>` : ""}
-        ${walletBtn("nav__wallet")}
-        <a class="btn btn--lime btn--sm" href="${url("/app/new")}" data-link>New waitlist</a>
-      </div>
-    </div>
-  </header>`;
-}
+export const appNav = siteNav;
 
 export function railHTML(active = "") {
   return `<aside class="rail">
@@ -118,7 +76,7 @@ export function bindWalletButtons(root = document) {
 export function showInstall() {
   modal(`<h3>Install MetaMask</h3>
     <p class="muted">You can look at any waitlist without a wallet. To join or create one you'll need MetaMask (or another browser wallet) on BOT Chain.</p>
-    <div class="row gap"><a class="btn btn--lime" href="https://metamask.io/download/" target="_blank" rel="noopener">Get MetaMask ↗</a><button class="btn btn--ghost" data-close>Not now</button></div>`);
+    <div class="row gap"><a class="btn btn--primary" href="https://metamask.io/download/" target="_blank" rel="noopener">Get MetaMask ↗</a><button class="btn btn--ghost" data-close>Not now</button></div>`);
 }
 
 export function modal(html) {
@@ -153,7 +111,7 @@ export function footer() {
           </div>
           <div class="fticket__mid">
             <button class="fticket__addr mono" type="button" data-copy="${addr}" title="Copy contract address">chain ID ${NETWORKS.mainnet.chainId} · ${shortAddr} <span aria-hidden="true">⧉</span></button>
-            <a class="btn btn--lime btn--sm" href="${CONTRACT_EXPLORER_URL}" target="_blank" rel="noopener">View on explorer ↗</a>
+            <a class="btn btn--primary btn--sm" href="${CONTRACT_EXPLORER_URL}" target="_blank" rel="noopener">View on explorer ↗</a>
           </div>
           <div class="fticket__bottom">
             ${barcodeSVG(addr, { height: 36, className: "barcode barcode--foot" })}
@@ -205,7 +163,7 @@ export function previewCard(l, { count = 0, note = "" } = {}) {
       <div data-countdown="${l.launchAt}">${countdownHTML(l.launchAt)}</div>
       <p class="wl__count"><b class="mono">${fmt(count)}</b> in line${count ? "" : " — be the first"}</p>
       ${l.reward ? `<p class="wl__reward">🎁 ${esc(clean(l.reward))}</p>` : ""}
-      <button class="btn btn--lime btn--block" type="button" tabindex="-1">Join the line</button>
+      <button class="btn btn--primary btn--block" type="button" tabindex="-1">Join the line</button>
       ${note ? `<p class="wl__note">${note}</p>` : ""}
     </div>
   </div>`;
@@ -235,7 +193,7 @@ export function ticketHTML({ name, rank, addr, inviteUrl, friends = 0, boost = 5
         <span class="eyebrow eyebrow--lilac">Invite friends to move up ${boost} spot${boost === 1 ? "" : "s"} each</span>
         <div class="invite">
           <input class="invite__input mono" readonly value="${esc(inviteUrl)}" aria-label="Your invite link">
-          <button class="btn btn--lime btn--sm" type="button" data-copy-invite>Copy</button>
+          <button class="btn btn--primary btn--sm" type="button" data-copy-invite>Copy</button>
         </div>
         <div class="share">
           <a class="share__btn" target="_blank" rel="noopener" href="https://x.com/intent/post?text=${encodeURIComponent(`I'm in line for ${name} — join with my link and help me move up 🎟️`)}&url=${encodeURIComponent(inviteUrl)}">X</a>

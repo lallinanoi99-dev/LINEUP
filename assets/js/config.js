@@ -54,12 +54,12 @@ export const CONTRACT_EXPLORER_URL = `${NETWORKS.mainnet.scan}/address/${MAINNET
 
 /** Cover colours (index = on-chain `color`). */
 export const COLORS = [
-  { key: "lime", hex: "#C6FF3D", ink: "#0C0B10" },
-  { key: "lilac", hex: "#B9A6FF", ink: "#0C0B10" },
-  { key: "coral", hex: "#FF6B6B", ink: "#0C0B10" },
-  { key: "sky", hex: "#7CC8FF", ink: "#0C0B10" },
-  { key: "sun", hex: "#FFD25E", ink: "#0C0B10" },
-  { key: "mint", hex: "#6EE7B7", ink: "#0C0B10" },
+  { key: "lime", hex: "#C6FF3D", ink: "#1c1c1b" },
+  { key: "lilac", hex: "#B9A6FF", ink: "#1c1c1b" },
+  { key: "coral", hex: "#FF6B6B", ink: "#1c1c1b" },
+  { key: "sky", hex: "#7CC8FF", ink: "#1c1c1b" },
+  { key: "sun", hex: "#FFD25E", ink: "#1c1c1b" },
+  { key: "mint", hex: "#6EE7B7", ink: "#1c1c1b" },
 ];
 
 export const ICONS = ["🚀", "✨", "🎟️", "🔥", "🎧", "🎮", "📦", "🧪", "🌱", "🤖", "💎", "🍜"];
