@@ -1,0 +1,18 @@
+{
+  "name": "lineup",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lineup — launch waitlists on BOT Chain. Join with your wallet, invite friends to move up.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "compile": "node scripts/compile.mjs",
+    "stamp": "node scripts/stamp.mjs",
+    "deploy:testnet": "node scripts/deploy.mjs testnet",
+    "deploy:mainnet": "node scripts/deploy.mjs mainnet"
+  },
+  "devDependencies": {
+    "ethers": "6.13.4",
+    "solc": "0.8.24"
+  }
+}

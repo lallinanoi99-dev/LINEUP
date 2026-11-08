@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Lineup</title>
+  <script>
+    // GitHub Pages SPA fallback: send /w/7?ref=… to index.html?p=/w/7%3Fref%3D… and let the app route it.
+    (function () {
+      var base = "";
+      var path = location.pathname;
+      if (/\.github\.io$/.test(location.hostname)) {
+        var seg = path.split("/")[1];
+        if (seg) { base = "/" + seg; path = path.slice(base.length) || "/"; }
+      }
+      location.replace(base + "/?p=" + encodeURIComponent(path + location.search + location.hash));
+    })();
+  </script>
+</head>
+<body style="background:#0C0B10"></body>
+</html>
